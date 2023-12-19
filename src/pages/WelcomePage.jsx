@@ -5,13 +5,13 @@ import Features from "../components/Features";
 
 export default function WelcomePage() {
   return (
-    <>
+    <div className="body-wrapper">
       <NavBar />
       <main>
         <HeroContent />
         <Features />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

@@ -4,7 +4,7 @@ import HeaderProfil from "../components/HeaderProfil";
 import Account from "../components/Account";
 export default function UserPage() {
   return (
-    <>
+    <div className="body-wrapper">
       <NavBar />
       <main class="main bg-dark">
         <HeaderProfil />
@@ -32,6 +32,7 @@ export default function UserPage() {
         </section>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
+// jokerflash@MacBook-Pro-de-BERENGER Desktop % sudo mongod --dbpath=/Users/jokerflash/Desktop/DATA
