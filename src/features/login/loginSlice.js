@@ -4,7 +4,7 @@ const initialState = {
   username: "",
   password: "",
 };
-export const loginSlice = createSlice({
+export const loginInputSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
@@ -17,5 +17,5 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { updateInputUsername, updateInputPassword } = loginSlice.actions;
-export default loginSlice.reducer;
+export const { updateInputUsername, updateInputPassword } = loginInputSlice.actions;
+export default loginInputSlice.reducer;

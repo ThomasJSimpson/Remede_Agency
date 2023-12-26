@@ -1,5 +1,4 @@
 export default function FeaturesItem({ data }) {
-  console.log(data);
   const { src, alt, title, text } = data;
 
   return (

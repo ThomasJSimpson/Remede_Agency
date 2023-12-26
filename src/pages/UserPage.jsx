@@ -1,38 +1,65 @@
+import { useSelector, useDispatch } from "react-redux";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import HeaderProfil from "../components/HeaderProfil";
 import Account from "../components/Account";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import authService from "../services/auth.service.js";
+import { stateUserInfo, logOut } from "../features/login/userSlice";
+
 export default function UserPage() {
-  return (
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user.isLoggedIn) {
+      return navigate("/sign-in");
+    }
+    const fetchData = async () => {
+      try {
+        const userLocalData = JSON.parse(localStorage.getItem("user"));
+        const profilResponse = await authService.getUserProfil(userLocalData);
+        dispatch(stateUserInfo({ ...profilResponse.data.body }));
+      } catch (err) {
+        dispatch(logOut());
+        console.error(err);
+        return navigate("/");
+      }
+    };
+    fetchData();
+  }, [dispatch, navigate, user.isLoggedIn]);
+
+  return user.isLoggedIn ? (
     <div className="body-wrapper">
       <NavBar />
-      <main class="main bg-dark">
+      <main className="main bg-dark">
         <HeaderProfil />
-        <h2 class="sr-only">Accounts</h2>
+        <h2 className="sr-only">Accounts</h2>
         <Account />
-        <section class="account">
-          <div class="account-content-wrapper">
-            <h3 class="account-title">Argent Bank Savings (x6712)</h3>
-            <p class="account-amount">$10,928.42</p>
-            <p class="account-amount-description">Available Balance</p>
+        <section className="account">
+          <div className="account-content-wrapper">
+            <h3 className="account-title">Argent Bank Savings (x6712)</h3>
+            <p className="account-amount">$10,928.42</p>
+            <p className="account-amount-description">Available Balance</p>
           </div>
-          <div class="account-content-wrapper cta">
-            <button class="transaction-button">View transactions</button>
+          <div className="account-content-wrapper cta">
+            <button className="transaction-button">View transactions</button>
           </div>
         </section>
-        <section class="account">
-          <div class="account-content-wrapper">
-            <h3 class="account-title">Argent Bank Credit Card (x8349)</h3>
-            <p class="account-amount">$184.30</p>
-            <p class="account-amount-description">Current Balance</p>
+        <section className="account">
+          <div className="account-content-wrapper">
+            <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
+            <p className="account-amount">$184.30</p>
+            <p className="account-amount-description">Current Balance</p>
           </div>
-          <div class="account-content-wrapper cta">
-            <button class="transaction-button">View transactions</button>
+          <div className="account-content-wrapper cta">
+            <button className="transaction-button">View transactions</button>
           </div>
         </section>
       </main>
       <Footer />
     </div>
-  );
+  ) : null;
 }
 // jokerflash@MacBook-Pro-de-BERENGER Desktop % sudo mongod --dbpath=/Users/jokerflash/Desktop/DATA
