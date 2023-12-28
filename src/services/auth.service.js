@@ -4,9 +4,6 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3001/api/v1/";
 
-// const getUserSignUp = () => {
-//   return axios.post(API_URL + "user/signup");
-// };
 const getUserLogin = async (email, pwd) => {
   return axios.post(API_URL + "user/login", { email: email, password: pwd }).then((response) => {
     const user = {
@@ -26,18 +23,24 @@ const getUserProfil = async (user) => {
   };
 
   return axios.post(API_URL + "user/profile", null, dataHeader).then((response) => {
-    console.log(response);
-
     const userUpdated = { ...user, ...response.data.body };
-
-    // Mise à jour des informations utilisateur dans le stockage local
     localStorage.setItem("user", JSON.stringify(userUpdated));
-
     return response;
   });
 };
-const putUserProfil = () => {
-  return axios.put(API_URL + "user/profile");
+
+const putUserProfil = async (databody, user) => {
+  const dataHeader = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  };
+
+  return axios.put(API_URL + "user/profile", databody, dataHeader).then((response) => {
+    const userUpdated = { ...user, ...response.data.body };
+    localStorage.setItem("user", JSON.stringify(userUpdated));
+    return response;
+  });
 };
 const UserService = {
   getUserLogin,

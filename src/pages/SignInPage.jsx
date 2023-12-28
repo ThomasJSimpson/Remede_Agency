@@ -7,13 +7,15 @@ import { useEffect } from "react";
 
 export default function SignInPage() {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
   useEffect(() => {
-    if (user.isLoggedIn) {
+    if (isLoggedIn) {
       navigate("/user");
     }
-  }, [navigate, user]);
-  return (
+  }, [navigate, isLoggedIn]);
+
+  return !isLoggedIn ? (
     <div className="body-wrapper">
       <NavBar />
       <main className="main bg-dark">
@@ -21,5 +23,5 @@ export default function SignInPage() {
       </main>
       <Footer />
     </div>
-  );
+  ) : null;
 }

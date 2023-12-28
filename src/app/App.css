@@ -250,17 +250,34 @@ html {
   flex: 1;
 }
 
+.header {
+  color: #fff;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.input-wrapper-edit {
+  display: flex;
+  margin-bottom: 10px;
+}
+.input-wrapper-edit input {
+  width: 200px;
+  height: 30px;
+  outline: none;
+  padding: 5px;
+  font-size: 1.2rem;
+}
+.input-wrapper-edit input::placeholder {
+  font-size: inherit; /* Remplacez la valeur par celle que vous préférez */
+}
 .edit-button {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
   font-weight: bold;
   padding: 10px;
-}
-
-.header {
-  color: #fff;
-  margin-bottom: 2rem;
+  width: 100px;
 }
 
 .transaction-button {

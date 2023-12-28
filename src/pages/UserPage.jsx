@@ -6,21 +6,21 @@ import Account from "../components/Account";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
 import authService from "../services/auth.service.js";
-import { stateUserInfo, logOut } from "../features/login/userSlice";
+import { updateUserInfo, logOut } from "../features/login/userSlice";
 
 export default function UserPage() {
-  const user = useSelector((state) => state.user);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!user.isLoggedIn) {
+    if (!isLoggedIn) {
       return navigate("/sign-in");
     }
     const fetchData = async () => {
       try {
         const userLocalData = JSON.parse(localStorage.getItem("user"));
         const profilResponse = await authService.getUserProfil(userLocalData);
-        dispatch(stateUserInfo({ ...profilResponse.data.body }));
+        dispatch(updateUserInfo({ ...profilResponse.data.body }));
       } catch (err) {
         dispatch(logOut());
         console.error(err);
@@ -28,9 +28,9 @@ export default function UserPage() {
       }
     };
     fetchData();
-  }, [dispatch, navigate, user.isLoggedIn]);
+  }, [dispatch, navigate, isLoggedIn]);
 
-  return user.isLoggedIn ? (
+  return isLoggedIn ? (
     <div className="body-wrapper">
       <NavBar />
       <main className="main bg-dark">
