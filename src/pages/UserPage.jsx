@@ -1,12 +1,12 @@
-import { useSelector, useDispatch } from "react-redux";
-import NavBar from "../components/NavBar";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import Account from "../components/Account";
 import Footer from "../components/Footer";
 import HeaderProfil from "../components/HeaderProfil";
-import Account from "../components/Account";
-import { useNavigate } from "react-router";
-import { useEffect } from "react";
+import NavBar from "../components/NavBar";
+import { logOut, updateUserInfo } from "../features/login/userSlice";
 import authService from "../services/auth.service.js";
-import { updateUserInfo, logOut } from "../features/login/userSlice";
 
 export default function UserPage() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -20,6 +20,7 @@ export default function UserPage() {
       try {
         const userLocalData = JSON.parse(localStorage.getItem("user"));
         const profilResponse = await authService.getUserProfil(userLocalData);
+        console.log(profilResponse);
         dispatch(updateUserInfo({ ...profilResponse.data.body }));
       } catch (err) {
         dispatch(logOut());

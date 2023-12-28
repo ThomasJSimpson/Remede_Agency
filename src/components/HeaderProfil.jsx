@@ -42,14 +42,13 @@ export default function HeaderProfil() {
     <div className="header">
       <h1>
         Welcome back <br />
-        {!onEdit ? `${user.firstName} ${user.lastName}!` : null}
+        {!onEdit ? `${user.firstName} !` : null}
       </h1>
 
       {onEdit ? (
         <div>
           <div className="input-wrapper-edit">
             <input type="text" onChange={(e) => dispatch(updateInputFirstname(e.target.value))} value={firstName} placeholder={user.firstName} />
-
             <input type="text" onChange={(e) => dispatch(updateInputLastname(e.target.value))} value={lastName} placeholder={user.lastName} />
           </div>
           <button className="edit-button" onClick={handleSave}>
