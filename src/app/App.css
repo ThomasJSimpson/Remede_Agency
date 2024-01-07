@@ -4,8 +4,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin: 0;
+  padding: 0;
 }
-
+body {
+  margin: 0;
+  padding: 0;
+}
 .body-wrapper {
   margin: 0;
   display: flex;
@@ -49,10 +54,12 @@ html {
 .main-nav a.router-link-exact-active {
   color: #42b983;
 }
-
+.main-nav-items {
+  display: flex;
+}
 .main-nav-item {
   text-decoration: none;
-  margin-right: 0.5rem;
+  margin-right: 0.8rem;
 }
 
 .main-nav-item:hover {
@@ -162,6 +169,8 @@ html {
   border-color: #00bc77;
   background-color: #00bc77;
   color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .sign-in-content {
@@ -176,7 +185,10 @@ html {
 .sign-in-icon {
   font-size: 5rem;
 }
-
+.error-message {
+  color: red;
+  font-size: 14px;
+}
 .input-remember {
   display: flex;
 }
@@ -269,7 +281,7 @@ html {
   font-size: 1.2rem;
 }
 .input-wrapper-edit input::placeholder {
-  font-size: inherit; /* Remplacez la valeur par celle que vous préférez */
+  font-size: inherit;
 }
 .edit-button {
   border-color: #00bc77;

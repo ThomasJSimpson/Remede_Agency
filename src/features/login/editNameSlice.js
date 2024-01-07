@@ -6,7 +6,7 @@ const initialState = {
   onEdit: false,
 };
 export const editNameInputSlice = createSlice({
-  name: "login",
+  name: "editName",
   initialState,
   reducers: {
     enableEdit: (state, action) => {

@@ -10,17 +10,27 @@ import authService from "../services/auth.service.js";
 
 export default function UserPage() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isRemembered = useSelector((state) => state.user.isRemembered);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!isLoggedIn) {
       return navigate("/sign-in");
     }
     const fetchData = async () => {
       try {
-        const userLocalData = JSON.parse(localStorage.getItem("user"));
-        const profilResponse = await authService.getUserProfil(userLocalData);
+        const userStorageData = isRemembered ? JSON.parse(localStorage.getItem("user")) : JSON.parse(sessionStorage.getItem("user"));
+        console.log(userStorageData);
+        const profilResponse = await authService.getUserProfil(userStorageData);
         console.log(profilResponse);
+
+        const userDataUpdated = { ...userStorageData, ...profilResponse.data.body };
+        console.log(userDataUpdated);
+
+        isRemembered ? localStorage.setItem("user", JSON.stringify(userDataUpdated)) : sessionStorage.setItem("user", JSON.stringify(userDataUpdated));
+
+        // localStorage.setItem("user", JSON.stringify(userDataUpdated));
         dispatch(updateUserInfo({ ...profilResponse.data.body }));
       } catch (err) {
         dispatch(logOut());
@@ -29,7 +39,7 @@ export default function UserPage() {
       }
     };
     fetchData();
-  }, [dispatch, navigate, isLoggedIn]);
+  }, [dispatch, navigate, isLoggedIn, isRemembered]);
 
   return isLoggedIn ? (
     <div className="body-wrapper">

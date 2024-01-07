@@ -8,6 +8,7 @@ export default function HeaderProfil() {
   const firstName = useSelector((state) => state.editNameInput.firstName);
   const lastName = useSelector((state) => state.editNameInput.lastName);
   const onEdit = useSelector((state) => state.editNameInput.onEdit);
+  const isRemembered = useSelector((state) => state.user.isRemembered);
   const dispatch = useDispatch();
 
   const handleEdit = () => {
@@ -21,10 +22,10 @@ export default function HeaderProfil() {
         lastName: lastName.trim() || user.lastName,
       };
       try {
-        console.log(firstName, lastName, user);
         const reqResponse = await authService.putUserProfil(updatedNames, user);
-        console.log(reqResponse);
         if (reqResponse.data.status === 200) {
+          const userDataUpdated = { ...user, ...reqResponse.data.body };
+          isRemembered ? localStorage.setItem("user", JSON.stringify(userDataUpdated)) : sessionStorage.setItem("user", JSON.stringify(userDataUpdated));
           dispatch(updateUserInfo({ ...reqResponse.data.body }));
           dispatch(cancelEdit());
         }
@@ -60,11 +61,9 @@ export default function HeaderProfil() {
         </div>
       ) : (
         <button className="edit-button" onClick={handleEdit}>
-          Edit
+          Edit Name
         </button>
       )}
     </div>
-    // <button className="edit-button">Edit Name</button>
   );
 }
-// authentification par token automatique
