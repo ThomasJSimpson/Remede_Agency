@@ -4,8 +4,6 @@ import Welcomepage from "../pages/WelcomePage.jsx";
 import SignIn from "../pages/SignInPage.jsx";
 import UserPage from "../pages/UserPage.jsx";
 
-// Set the default headers for axios
-
 function App() {
   return (
     <Routes>

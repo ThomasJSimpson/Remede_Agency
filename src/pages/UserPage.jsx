@@ -5,8 +5,8 @@ import Account from "../components/Account";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import HeaderProfil from "../components/HeaderProfil";
-import { logOut, updateUserInfo } from "../features/login/userSlice";
-import authService from "../services/auth.service.js";
+import { logOut, updateUserInfo } from "../features/userSlice.js";
+import authService from "../services/authService.js";
 
 export default function UserPage() {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);

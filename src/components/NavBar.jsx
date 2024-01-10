@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import argentBankLogo from "../assets/argentBankLogo.png";
-import { logOut } from "../features/login/userSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { logOut } from "../features/userSlice";
 import UserCircle from "../assets/fa-user-circle";
 import SignOutIcon from "../assets/fa-sign-out";
 

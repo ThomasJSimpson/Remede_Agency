@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginInputReducer from "../features/login/loginSlice.js";
-import editNamereducer from "../features/login/editNameSlice.js";
-import userReducer from "../features/login/userSlice.js";
+import loginInputReducer from "../features/loginSlice.js";
+import editNamereducer from "../features/editNameSlice.js";
+import userReducer from "../features/userSlice.js";
 
 export const store = configureStore({
   reducer: {

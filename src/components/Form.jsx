@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
-import { updateInputUsername, updateInputPassword, resetInputs, setLoginFailed } from "../features/login/loginSlice.js";
-import { updateUserToken, setRememberMe } from "../features/login/userSlice.js";
-import authService from "../services/auth.service.js";
+import { updateInputUsername, updateInputPassword, resetInputs, setLoginFailed } from "../features/loginSlice.js";
+import { updateUserToken, setRememberMe } from "../features/userSlice.js";
+import authService from "../services/authService.js";
 import UserCircleIcon from "../assets/fa-user-circle.js";
 
 export default function Form() {

@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
-import { enableEdit, updateInputFirstname, updateInputLastname, cancelEdit } from "../features/login/editNameSlice";
-import { updateUserInfo } from "../features/login/userSlice";
-import authService from "../services/auth.service.js";
+import { enableEdit, updateInputFirstname, updateInputLastname, cancelEdit } from "../features/editNameSlice.js";
+import { updateUserInfo } from "../features/userSlice.js";
+import authService from "../services/authService.js";
 
 export default function HeaderProfil() {
   const user = useSelector((state) => state.user);
