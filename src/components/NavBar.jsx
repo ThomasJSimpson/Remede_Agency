@@ -17,9 +17,10 @@ export default function NavBar() {
       dispatch(logOut());
     }
   };
+
   return (
     <nav className="main-nav">
-      <Link className="main-nav-logo" to={`${isLoggedIn ? "" : "/"}`}>
+      <Link className="main-nav-logo" to={"/"}>
         <img className="main-nav-logo-image" src={argentBankLogo} alt="Argent Bank Logo" />
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
@@ -31,7 +32,6 @@ export default function NavBar() {
             </p>
           </Link>
         ) : null}
-
         <Link className="main-nav-item" to={`${isLoggedIn ? "/" : "/sign-in"}`} onClick={handleLog}>
           <p>
             {isLoggedIn ? signOutIcon : userIcon}

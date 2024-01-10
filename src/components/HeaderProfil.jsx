@@ -21,6 +21,7 @@ export default function HeaderProfil() {
         firstName: firstName.trim() || user.firstName,
         lastName: lastName.trim() || user.lastName,
       };
+
       try {
         const reqResponse = await authService.putUserProfil(updatedNames, user);
         if (reqResponse.data.status === 200) {
@@ -45,7 +46,6 @@ export default function HeaderProfil() {
         Welcome back <br />
         {!onEdit ? `${user.firstName} !` : null}
       </h1>
-
       {onEdit ? (
         <div>
           <div className="input-wrapper-edit">
