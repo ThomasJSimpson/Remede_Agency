@@ -35,7 +35,7 @@ export default function Form() {
       dispatch(setLoginFailed(true));
     }
   };
-  console.log();
+
   return (
     <section className="sign-in-content">
       {userIcon}

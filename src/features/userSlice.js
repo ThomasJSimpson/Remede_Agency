@@ -25,7 +25,7 @@ export const userSlice = createSlice({
         isLoggedIn: true,
       };
     },
-    logOut: (state) => {
+    logOut: () => {
       sessionStorage.removeItem("user");
       localStorage.removeItem("user");
       return initialUser;

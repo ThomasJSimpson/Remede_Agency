@@ -5,10 +5,7 @@ import authService from "../services/authService.js";
 
 export default function HeaderProfil() {
   const user = useSelector((state) => state.user);
-  const firstName = useSelector((state) => state.editNameInput.firstName);
-  const lastName = useSelector((state) => state.editNameInput.lastName);
-  const onEdit = useSelector((state) => state.editNameInput.onEdit);
-  const isRemembered = useSelector((state) => state.user.isRemembered);
+  const editNameInput = useSelector((state) => state.editNameInput);
   const dispatch = useDispatch();
 
   const handleEdit = () => {
@@ -18,15 +15,15 @@ export default function HeaderProfil() {
   const handleSave = async (e) => {
     if (user.isLoggedIn) {
       const updatedNames = {
-        firstName: firstName.trim() || user.firstName,
-        lastName: lastName.trim() || user.lastName,
+        firstName: editNameInput.firstName.trim() || user.firstName,
+        lastName: editNameInput.lastName.trim() || user.lastName,
       };
 
       try {
         const reqResponse = await authService.putUserProfil(updatedNames, user);
         if (reqResponse.data.status === 200) {
           const userDataUpdated = { ...user, ...reqResponse.data.body };
-          isRemembered ? localStorage.setItem("user", JSON.stringify(userDataUpdated)) : sessionStorage.setItem("user", JSON.stringify(userDataUpdated));
+          user.isRemembered ? localStorage.setItem("user", JSON.stringify(userDataUpdated)) : sessionStorage.setItem("user", JSON.stringify(userDataUpdated));
           dispatch(updateUserInfo({ ...reqResponse.data.body }));
           dispatch(cancelEdit());
         }
@@ -44,13 +41,13 @@ export default function HeaderProfil() {
     <div className="header">
       <h1>
         Welcome back <br />
-        {!onEdit ? `${user.firstName} !` : null}
+        {!editNameInput.onEdit ? `${user.firstName} !` : null}
       </h1>
-      {onEdit ? (
+      {editNameInput.onEdit ? (
         <div>
           <div className="input-wrapper-edit">
-            <input type="text" onChange={(e) => dispatch(updateInputFirstname(e.target.value))} value={firstName} placeholder={user.firstName} />
-            <input type="text" onChange={(e) => dispatch(updateInputLastname(e.target.value))} value={lastName} placeholder={user.lastName} />
+            <input type="text" onChange={(e) => dispatch(updateInputFirstname(e.target.value))} value={editNameInput.firstName} placeholder={user.firstName} />
+            <input type="text" onChange={(e) => dispatch(updateInputLastname(e.target.value))} value={editNameInput.lastName} placeholder={user.lastName} />
           </div>
           <button className="edit-button" onClick={handleSave}>
             Save

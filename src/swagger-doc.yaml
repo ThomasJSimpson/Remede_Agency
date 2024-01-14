@@ -1,0 +1,417 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/accounts:
+    get:
+      tags:
+        - User Module
+      summary: User Account List API
+      description: API for retrieving a list of user accounts.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: "string"
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Accounts retrieved successully
+          schema:
+            $ref: '#/definitions/AccountsResponse'
+        '401':
+          description: Unauthorized - Access to the requested resource is denied due to invalid or expired authentication credentials.
+        '500':
+          description: Internal Server Error
+
+  /user/accounts/{accountId}/transactions:
+    get:
+      tags:
+        - User Module
+      summary: Account Transactions List API
+      description: API for retrieving a list of transactions from an ID account.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: "string"
+          required: true
+        - in: path
+          name: accountId  
+          description: ID of the account
+          required: true
+          type: "string"
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionsResponse'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized - Access to the requested resource is denied due to invalid or expired authentication
+        '404':
+          description: Not Found - The requested transaction or account was not found. 
+        '500':
+          description: Internal Server Error
+          
+  /user/accounts/{accountId}/transactions/{transactionId}/createInfo:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Create Transaction Info API
+      description: API for creating information about a specific transaction for an account.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: "string"
+          required: true
+        - in: path
+          name: accountId  
+          description: ID of the account
+          required: true
+          type: "string"
+        - in: path
+          name: transactionId  
+          description: ID of the transaction
+          required: true
+          type: "string"
+        - in: body
+          name: body
+          description: Information about the transaction (infoType = "category" or "notes")
+          required: true
+          schema:
+            $ref: '#/definitions/CreateInfoTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction information created successfully
+          schema:
+            $ref: '#/definitions/CreateInfoTransactionResponse'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized - Access to the requested resource is denied due to invalid or expired authentication
+        '404':
+          description: Not Found - The requested transaction or account was not found.
+        '500':
+          description: Internal Server Error
+          
+  /user/accounts/{accountId}/transactions/{transactionId}/editInfo:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Edit Transaction Info API
+      description: API for editing information about a specific transaction for an account.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: "string"
+          required: true
+        - in: path
+          name: accountId  
+          description: ID of the account
+          required: true
+          type: "string"
+        - in: path
+          name: transactionId  
+          description: ID of the transaction
+          required: true
+          type: "string"
+        - in: body
+          name: body
+          description: Transaction detail to update (infoType = "category" or "notes")
+          required: true
+          schema:
+            $ref: '#/definitions/EditInfoTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction details updated successfully
+          schema:
+            $ref: '#/definitions/EditInfoTransactionResponse'
+        '400':
+          description: Invalid Fields
+        '401':
+          description: Unauthorized - Access to the requested resource is denied due to invalid or expired authentication
+        '404':
+          description: Not Found - The requested transaction or account was not found.
+        '500':
+          description: Internal Server Error
+          
+  /user/accounts/{accountId}/transactions/{transactionId}/deleteInfo:
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Delete Transaction Info API
+      description: API for deleting information about a specific transaction.
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: "string"
+          required: true
+        - in: path
+          name: accountId  
+          description: ID of the account
+          required: true
+          type: "string"
+        - in: path
+          name: transactionId  
+          description: ID of the transaction to delete
+          required: true
+          type: "string"
+        - in: body
+          name: body
+          description:  Transaction info property to delete (infoType = "category" or "notes")
+          required: true
+          schema:
+            $ref: '#/definitions/DeleteInfoTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction detail deleted successfully
+          schema:
+            $ref: '#/definitions/DeleteInfoTransactionResponse'
+        '401':
+          description: Unauthorized - Access to the requested resource is denied due to invalid or expired authentication
+        '404':
+          description: Not Found - The requested transaction or account was not found.
+        '500':
+          description: Internal Server Error
+
+securityDefinitions:
+
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    
+definitions:
+
+  AccountsResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          accounts:
+            type: array
+            items:
+              type: object
+              properties:
+                accountId:
+                  type: string
+                accountCurrency:
+                  type: string
+                accountName:
+                  type: string
+                accountType:
+                  type: string
+                accountBalance:
+                  type: number
+        
+  TransactionsResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          transactions:
+            type: array
+            items:
+              type: object
+              properties:
+                transactionId:
+                  type: string
+                dateTime:
+                  type: string
+                type:
+                  type: string
+                amount:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+                    currency:
+                      type: string
+                balance:
+                  type: object
+                  properties:
+                    balance:
+                      type: string
+                    currency:
+                      type: string
+
+  CreateInfoTransaction:
+    type: object
+    properties:
+      infoType:
+        type: string
+        enum:
+          - category
+          - notes
+      infoValue:
+        type: string
+
+  CreateInfoTransactionResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        body:
+          type: object
+          properties:
+            transaction:
+              type: object
+              properties:
+                transactionId:
+                  type: string
+                dateTime:
+                  type: string
+                type:
+                  type: string
+                amount:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+                    currency:
+                      type: string
+                balance:
+                  type: object
+                  properties:
+                    balance:
+                      type: string
+                    currency:
+                      type: string
+                additionalInfo:
+                  type: object
+                  properties:
+                    category:
+                      type: string
+
+  EditInfoTransaction:
+    type: object
+    properties:
+      infoType:
+        type: string
+        enum:
+          - category
+          - notes
+      infoValue:
+        type: string
+
+  EditInfoTransactionResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        body:
+          type: object
+          properties:
+            transaction:
+              type: object
+              properties:
+                transactionId:
+                  type: string
+                dateTime:
+                  type: string
+                type:
+                  type: string
+                amount:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+                    currency:
+                      type: string
+                balance:
+                  type: object
+                  properties:
+                    balance:
+                      type: string
+                    currency:
+                      type: string
+                additionalInfo:
+                  type: object
+                  properties:
+                    category:
+                      type: string
+   
+  DeleteInfoTransaction:
+    type: object
+    properties:
+      infoType:
+        type: string
+        enum:
+          - category
+          - notes
+
+  DeleteInfoTransactionResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+        body:
+          type: object
+          properties:
+            transaction:
+              type: object
+              properties:
+                transactionId:
+                  type: string
+                dateTime:
+                  type: string
+                type:
+                  type: string
+                amount:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+                    currency:
+                      type: string
+                balance:
+                  type: object
+                  properties:
+                    balance:
+                      type: string
+                    currency:
+                      type: string
